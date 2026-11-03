@@ -1,151 +1,159 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   template: `
-    <header class="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-sm transition-all duration-200">
-      <div class="w-full px-6 sm:px-10 lg:px-14">
+    <!-- Top Announcement / Helpline Bar -->
+    <div class="bg-[#0b1e42] text-white text-xs py-1.5 px-4 sm:px-8 border-b border-blue-900/60 hidden md:flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <span class="inline-flex items-center gap-1.5 text-amber-300 font-semibold">
+          <i class="fa-solid fa-bullhorn text-[10px]"></i>
+          <span>Yuva Morcha Tripura</span>
+        </span>
+        <span class="text-slate-300 hidden lg:inline">|</span>
+        <span class="text-slate-300 hidden lg:inline">Empowering Youth • Building a Stronger Future</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-200">
+        <a routerLink="/blood-donation" class="hover:text-amber-300 transition-colors flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+          <span>24/7 Emergency Blood Helpline: +91 381 232 4011</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-200">
+      <div class="w-full px-4 sm:px-6 lg:px-10">
         <div class="flex items-center justify-between h-20">
           
           <!-- Brand Logo -->
-          <a routerLink="/" class="flex items-center gap-3.5 group cursor-pointer focus:outline-none">
-            <img src="emblem.png" alt="Yuva Sampark Emblem" class="w-10 h-10 object-contain transition-transform group-hover:scale-105" />
-            
-            <div class="flex items-center gap-3">
-              <div>
-                <span class="text-2xl font-black text-[#0b1e42] tracking-tight block leading-tight">Yuva Sampark</span>
-                <span class="text-[11px] font-semibold text-slate-500 tracking-wide block">Connect • Engage • Serve</span>
-              </div>
-              <div class="hidden sm:block h-8 w-px bg-slate-200 ml-1"></div>
+          <a routerLink="/" class="flex items-center gap-3 group cursor-pointer focus:outline-none flex-shrink-0">
+            <img src="emblem.png" alt="Yuva Morcha Tripura Emblem" class="w-10 h-10 object-contain transition-transform group-hover:scale-105" />
+            <div class="flex flex-col">
+              <span class="text-xl sm:text-2xl font-black text-[#0b1e42] tracking-tight leading-tight">Yuva Morcha</span>
+              <span class="text-[11px] font-bold text-amber-600 tracking-wider uppercase">Tripura Pradesh</span>
             </div>
           </a>
 
-          <!-- Center Navigation Links -->
-          <nav class="hidden md:flex items-center gap-2 text-sm font-medium">
+          <!-- Desktop Navigation Links -->
+          <nav class="hidden xl:flex items-center gap-1 text-[13px] font-semibold text-slate-700">
             <a routerLink="/" 
-               routerLinkActive="bg-[#0e2554] text-white font-semibold shadow-sm" 
+               routerLinkActive="text-[#0e2554] bg-slate-100/90 font-bold" 
                [routerLinkActiveOptions]="{exact: true}"
-               class="px-5 py-2 rounded-lg text-slate-700 hover:text-[#0e2554] hover:bg-slate-100 transition-colors">
-              Home
-            </a>
-            
-            <!-- Features Link (Smooth Scrolls to #features directly) -->
-            <button type="button" 
-                    (click)="scrollToSection('features', $event)" 
-                    class="px-4 py-2 rounded-lg text-slate-700 hover:text-[#0e2554] hover:bg-slate-100 transition-colors font-medium text-sm focus:outline-none">
-              Features
-            </button>
-            
-            <a routerLink="/opportunities" 
-               routerLinkActive="bg-[#0e2554] text-white font-semibold shadow-sm"
-               class="px-4 py-2 rounded-lg text-slate-700 hover:text-[#0e2554] hover:bg-slate-100 transition-colors">
-              Impact
-            </a>
-
-            <a routerLink="/blood-donation" 
-               routerLinkActive="bg-[#0e2554] text-white font-semibold shadow-sm"
-               class="px-4 py-2 rounded-lg text-slate-700 hover:text-[#0e2554] hover:bg-slate-100 transition-colors">
-              Support
-            </a>
-
-            <a routerLink="/security" 
-               routerLinkActive="bg-[#0e2554] text-white font-semibold shadow-sm"
-               class="px-4 py-2 rounded-lg text-slate-700 hover:text-[#0e2554] hover:bg-slate-100 transition-colors">
-              Security
+               class="px-3 py-2 rounded-lg hover:text-[#0e2554] hover:bg-slate-50 transition-colors">
+              HOME
             </a>
 
             <a routerLink="/about" 
-               routerLinkActive="bg-[#0e2554] text-white font-semibold shadow-sm"
-               class="px-4 py-2 rounded-lg text-slate-700 hover:text-[#0e2554] hover:bg-slate-100 transition-colors">
-              About
+               routerLinkActive="text-[#0e2554] bg-slate-100/90 font-bold"
+               class="px-3 py-2 rounded-lg hover:text-[#0e2554] hover:bg-slate-50 transition-colors">
+              ABOUT
+            </a>
+
+            <a routerLink="/leadership" 
+               routerLinkActive="text-[#0e2554] bg-slate-100/90 font-bold"
+               class="px-3 py-2 rounded-lg hover:text-[#0e2554] hover:bg-slate-50 transition-colors">
+              LEADERSHIP
+            </a>
+
+            <a routerLink="/events" 
+               routerLinkActive="text-[#0e2554] bg-slate-100/90 font-bold"
+               class="px-3 py-2 rounded-lg hover:text-[#0e2554] hover:bg-slate-50 transition-colors">
+              MEMBERSHIP / EVENTS
+            </a>
+
+            <a routerLink="/initiatives" 
+               routerLinkActive="text-[#0e2554] bg-slate-100/90 font-bold"
+               class="px-3 py-2 rounded-lg hover:text-[#0e2554] hover:bg-slate-50 transition-colors">
+              INITIATIVES
+            </a>
+
+            <a routerLink="/news" 
+               routerLinkActive="text-[#0e2554] bg-slate-100/90 font-bold"
+               class="px-3 py-2 rounded-lg hover:text-[#0e2554] hover:bg-slate-50 transition-colors">
+              NEWS
+            </a>
+
+            <a routerLink="/media" 
+               routerLinkActive="text-[#0e2554] bg-slate-100/90 font-bold"
+               class="px-3 py-2 rounded-lg hover:text-[#0e2554] hover:bg-slate-50 transition-colors">
+              MEDIA
+            </a>
+
+            <a routerLink="/districts" 
+               routerLinkActive="text-[#0e2554] bg-slate-100/90 font-bold"
+               class="px-3 py-2 rounded-lg hover:text-[#0e2554] hover:bg-slate-50 transition-colors">
+              DISTRICTS
+            </a>
+
+            <a routerLink="/contact-career" 
+               routerLinkActive="text-[#0e2554] bg-slate-100/90 font-bold"
+               class="px-3 py-2 rounded-lg hover:text-[#0e2554] hover:bg-slate-50 transition-colors">
+              CONTACT / CAREER
             </a>
           </nav>
 
-          <!-- Action Buttons / Auth -->
-          <div class="flex items-center gap-3">
-            <ng-container *ngIf="authService.currentUser$ | async as user; else loggedOutBtns">
-              <!-- Role Badge -->
-              <div class="hidden sm:flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-full px-3 py-1 text-xs">
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                <span class="text-slate-700 font-semibold">{{ user.role }}</span>
-              </div>
+          <!-- Desktop Quick Action CTAs -->
+          <div class="hidden sm:flex items-center gap-3">
+            <a routerLink="/blood-donation" 
+               class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl transition shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+              <i class="fa-solid fa-droplet text-red-600 text-xs"></i>
+              <span>Blood Network</span>
+            </a>
 
-              <!-- Dashboard Button -->
-              <a routerLink="/dashboard" 
-                 class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs md:text-sm font-bold text-[#0e2554] bg-slate-100 hover:bg-slate-200 rounded-xl transition">
-                <i class="fa-solid fa-gauge-high"></i>
-                <span class="hidden sm:inline">Portal</span>
-              </a>
+            <a routerLink="/register" 
+               class="inline-flex items-center gap-2 px-4 py-2 text-xs md:text-sm font-bold text-white bg-[#0e2554] hover:bg-[#071739] rounded-xl transition shadow-md hover:shadow-lg">
+              <i class="fa-solid fa-user-plus text-xs"></i>
+              <span>Join Us</span>
+            </a>
+          </div>
 
-              <!-- Logout Button -->
-              <button (click)="authService.logout()" 
-                      title="Logout"
-                      class="text-slate-400 hover:text-red-600 p-2 text-sm transition">
-                <i class="fa-solid fa-right-from-bracket"></i>
-              </button>
-            </ng-container>
+          <!-- Mobile / Tablet Menu Button -->
+          <div class="flex xl:hidden items-center gap-2">
+            <a routerLink="/register" 
+               class="inline-flex sm:hidden items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-[#0e2554] rounded-lg">
+              <span>Join</span>
+            </a>
 
-            <ng-template #loggedOutBtns>
-              <!-- Login Button -->
-              <a routerLink="/login" 
-                 class="inline-flex items-center gap-2 px-5 py-2 text-sm font-bold text-slate-800 bg-white border border-slate-300 rounded-xl hover:border-slate-400 hover:bg-slate-50 transition shadow-sm">
-                <i class="fa-solid fa-lock text-xs text-slate-600"></i>
-                <span>Login</span>
-              </a>
-
-              <!-- Register Button -->
-              <a routerLink="/register" 
-                 class="inline-flex items-center gap-2 px-5 py-2 text-sm font-bold text-white bg-[#0e2554] hover:bg-[#071739] rounded-xl transition shadow-sm hover:shadow">
-                <i class="fa-solid fa-user-plus text-xs"></i>
-                <span>+ Register</span>
-              </a>
-            </ng-template>
-
-            <!-- Mobile Menu Toggle Button -->
             <button (click)="mobileMenuOpen = !mobileMenuOpen" 
-                    class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
-              <i class="fa-solid" [ngClass]="mobileMenuOpen ? 'fa-xmark text-lg' : 'fa-bars text-lg'"></i>
+                    type="button"
+                    class="p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none"
+                    aria-label="Toggle Navigation Menu">
+              <i class="fa-solid" [ngClass]="mobileMenuOpen ? 'fa-xmark text-xl' : 'fa-bars text-xl'"></i>
             </button>
           </div>
 
         </div>
 
-        <!-- Mobile Navigation Menu -->
-        <div *ngIf="mobileMenuOpen" class="md:hidden pb-4 pt-2 border-t border-slate-100 flex flex-col gap-1.5 animate-fadeIn">
-          <a (click)="mobileMenuOpen = false" routerLink="/" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Home</a>
-          <button (click)="mobileMenuOpen = false; scrollToSection('features', $event)" class="text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Features</button>
-          <a (click)="mobileMenuOpen = false" routerLink="/opportunities" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Impact & Schemes</a>
-          <a (click)="mobileMenuOpen = false" routerLink="/blood-donation" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Support & Blood Donation</a>
-          <a (click)="mobileMenuOpen = false" routerLink="/events" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Events & Drives</a>
-          <a (click)="mobileMenuOpen = false" routerLink="/security" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Security</a>
-          <a (click)="mobileMenuOpen = false" routerLink="/about" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">About</a>
-          <a (click)="mobileMenuOpen = false" routerLink="/dashboard" class="px-3 py-2 rounded-md font-medium text-[#0e2554] bg-slate-100">Member/Admin Dashboard</a>
+        <!-- Mobile Drawer Navigation -->
+        <div *ngIf="mobileMenuOpen" class="xl:hidden pb-6 pt-2 border-t border-slate-100 flex flex-col gap-1.5 animate-fadeIn">
+          <a (click)="mobileMenuOpen = false" routerLink="/" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-slate-800 hover:bg-slate-100">HOME</a>
+          <a (click)="mobileMenuOpen = false" routerLink="/about" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-slate-800 hover:bg-slate-100">ABOUT</a>
+          <a (click)="mobileMenuOpen = false" routerLink="/leadership" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-slate-800 hover:bg-slate-100">LEADERSHIP</a>
+          <a (click)="mobileMenuOpen = false" routerLink="/events" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-slate-800 hover:bg-slate-100">MEMBERSHIP / EVENTS</a>
+          <a (click)="mobileMenuOpen = false" routerLink="/initiatives" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-slate-800 hover:bg-slate-100">INITIATIVES</a>
+          <a (click)="mobileMenuOpen = false" routerLink="/news" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-slate-800 hover:bg-slate-100">NEWS</a>
+          <a (click)="mobileMenuOpen = false" routerLink="/media" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-slate-800 hover:bg-slate-100">MEDIA</a>
+          <a (click)="mobileMenuOpen = false" routerLink="/districts" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-slate-800 hover:bg-slate-100">DISTRICTS</a>
+          <a (click)="mobileMenuOpen = false" routerLink="/contact-career" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-slate-800 hover:bg-slate-100">CONTACT / CAREER</a>
+          <a (click)="mobileMenuOpen = false" routerLink="/blood-donation" class="px-3.5 py-2.5 rounded-lg font-bold text-sm text-red-600 bg-red-50 hover:bg-red-100 flex items-center gap-2">
+            <i class="fa-solid fa-droplet text-red-600"></i>
+            <span>EMERGENCY BLOOD NETWORK</span>
+          </a>
+          <a (click)="mobileMenuOpen = false" routerLink="/register" class="mt-2 text-center px-4 py-3 rounded-xl font-bold text-sm text-white bg-[#0e2554] hover:bg-[#071739] shadow">
+            JOIN US / VOLUNTEER REGISTRATION
+          </a>
         </div>
       </div>
     </header>
   `
 })
 export class HeaderComponent {
-  authService = inject(AuthService);
   router = inject(Router);
   mobileMenuOpen = false;
-
-  scrollToSection(id: string, event?: Event): void {
-    if (event) event.preventDefault();
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      this.router.navigate(['/']).then(() => {
-        setTimeout(() => {
-          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 150);
-      });
-    }
-  }
 }

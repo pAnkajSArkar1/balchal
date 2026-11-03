@@ -30,21 +30,26 @@ import { BloodDonor, BloodRequest, BloodDrive, District, Mandal } from '../../co
             <p class="text-sm sm:text-base text-red-100 leading-relaxed mb-6">
               Immediate blood donor matching across all 8 districts of Tripura. Directly integrated with AGMC & GBP Hospital, Dr. BRAM Teaching Hospital, and district sub-divisional blood banks.
             </p>
-            <div class="flex flex-wrap gap-3">
+            <div class="flex flex-wrap gap-2.5">
               <button (click)="activeTab = 'request'" 
-                      class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-md"
+                      class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-md"
                       [ngClass]="activeTab === 'request' ? 'bg-white text-red-700' : 'bg-red-800/60 text-white hover:bg-red-800'">
                 <i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Request Blood Urgently
               </button>
+              <button (click)="activeTab = 'register-donor'" 
+                      class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-md"
+                      [ngClass]="activeTab === 'register-donor' ? 'bg-white text-red-700' : 'bg-red-800/60 text-white hover:bg-red-800'">
+                <i class="fa-solid fa-heart mr-1.5"></i> Register as a Donor
+              </button>
               <button (click)="activeTab = 'directory'" 
-                      class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-md"
+                      class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-md"
                       [ngClass]="activeTab === 'directory' ? 'bg-white text-red-700' : 'bg-red-800/60 text-white hover:bg-red-800'">
-                <i class="fa-solid fa-address-book mr-1.5"></i> Donor Directory & Matchmaker
+                <i class="fa-solid fa-address-book mr-1.5"></i> Donor Directory
               </button>
               <button (click)="activeTab = 'drives'" 
-                      class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-md"
+                      class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-md"
                       [ngClass]="activeTab === 'drives' ? 'bg-white text-red-700' : 'bg-red-800/60 text-white hover:bg-red-800'">
-                <i class="fa-solid fa-calendar-check mr-1.5"></i> Blood Donation Drives
+                <i class="fa-solid fa-calendar-check mr-1.5"></i> Blood Drives
               </button>
             </div>
           </div>
@@ -58,244 +63,287 @@ import { BloodDonor, BloodRequest, BloodDrive, District, Mandal } from '../../co
             <div class="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 shadow-md border border-slate-200">
               <div class="border-b border-slate-100 pb-4 mb-6">
                 <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
-                  <span class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center text-sm">
-                    <i class="fa-solid fa-hand-holding-medical"></i>
-                  </span>
-                  Submit Urgent Blood Request
+                  <i class="fa-solid fa-bell text-red-600"></i> Broadcast Emergency Blood Request
                 </h2>
                 <p class="text-xs text-slate-500 mt-1">
-                  Once submitted, an instant broadcast is sent to active registered volunteers in your selected Tripura district.
+                  Once submitted, an immediate alert is generated across our verified youth donor network in the patient's district.
                 </p>
               </div>
 
-              <!-- Alert on submission -->
-              <div *ngIf="requestSubmitted" class="p-4 mb-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-start gap-3">
-                <i class="fa-solid fa-circle-check text-lg text-emerald-600 mt-0.5"></i>
+              <div *ngIf="requestSubmitted" class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold mb-6 flex items-center gap-3">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
                 <div>
-                  <strong class="font-bold">Request Broadcasted Successfully!</strong>
-                  <p class="mt-0.5">Volunteers in {{ reqForm.value.district }} have been alerted. You can also contact donors directly from the directory below.</p>
+                  <strong>Emergency Request Broadcasted!</strong> Nearby voluntary donors and district leads have been alerted.
                 </div>
               </div>
 
               <form [formGroup]="reqForm" (ngSubmit)="submitRequest()" class="space-y-4">
-                
-                <!-- Patient Name & Blood Group -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Patient Name *</label>
-                    <input type="text" formControlName="patientName" placeholder="e.g. Ranjan Debnath" 
-                           class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none" />
-                    <span *ngIf="isReqFieldInvalid('patientName')" class="text-[11px] text-red-500 mt-1 block">Patient Name is required.</span>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Patient Name *</label>
+                    <input type="text" formControlName="patientName" placeholder="e.g. Smt. Maya Roy"
+                           class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                           [ngClass]="isReqFieldInvalid('patientName') ? 'border-red-500 bg-red-50/50' : 'border-slate-300'" />
                   </div>
 
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Required Blood Group *</label>
-                    <select formControlName="bloodGroup" 
-                            class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none bg-white font-mono font-bold text-red-600">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Required Blood Group *</label>
+                    <select formControlName="bloodGroup"
+                            class="w-full px-4 py-2.5 rounded-xl border text-sm font-bold text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                            [ngClass]="isReqFieldInvalid('bloodGroup') ? 'border-red-500 bg-red-50/50' : 'border-slate-300'">
                       <option value="">Select Blood Group</option>
                       <option *ngFor="let bg of bloodGroups" [value]="bg">{{ bg }}</option>
                     </select>
-                    <span *ngIf="isReqFieldInvalid('bloodGroup')" class="text-[11px] text-red-500 mt-1 block">Blood group is required.</span>
                   </div>
                 </div>
 
-                <!-- Units Needed & Urgency Level -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Units (Bags) Required *</label>
-                    <input type="number" formControlName="unitsNeeded" min="1" max="10" 
-                           class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none" />
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Units Needed *</label>
+                    <input type="number" formControlName="unitsNeeded" min="1" max="10"
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" />
                   </div>
 
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Urgency Level *</label>
-                    <select formControlName="urgency" 
-                            class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none bg-white">
-                      <option value="Critical (Immediate)">Critical (Immediate - Within 2 Hours)</option>
-                      <option value="Within 6 Hours">Urgent (Within 6 Hours)</option>
-                      <option value="Within 24 Hours">Routine / Planned Transfusion</option>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Urgency Level *</label>
+                    <select formControlName="urgency"
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold text-slate-700">
+                      <option value="Critical (Immediate)">Critical (Immediate)</option>
+                      <option value="Within 6 Hours">Within 6 Hours</option>
+                      <option value="Within 24 Hours">Within 24 Hours</option>
                     </select>
                   </div>
                 </div>
 
-                <!-- Hospital Name & District / Mandal -->
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Hospital / Medical Center *</label>
-                  <input type="text" formControlName="hospitalName" 
-                         placeholder="e.g. AGMC & GBP Hospital, Agartala (Ward 4B / ICU)" 
-                         class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none" />
-                  <span *ngIf="isReqFieldInvalid('hospitalName')" class="text-[11px] text-red-500 mt-1 block">Hospital details are required.</span>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Hospital / Medical Center Name *</label>
+                  <input type="text" formControlName="hospitalName" placeholder="e.g. AGMC & GBP Hospital, Agartala"
+                         class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                         [ngClass]="isReqFieldInvalid('hospitalName') ? 'border-red-500 bg-red-50/50' : 'border-slate-300'" />
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tripura District *</label>
-                    <select formControlName="district" (change)="onReqDistrictChange()" 
-                            class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none bg-white">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">District *</label>
+                    <select formControlName="district" (change)="onReqDistrictChange()"
+                            class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                            [ngClass]="isReqFieldInvalid('district') ? 'border-red-500 bg-red-50/50' : 'border-slate-300'">
                       <option value="">Select District</option>
-                      <option *ngFor="let d of districts" [value]="d.name">{{ d.name }}</option>
+                      <option *ngFor="let dist of districts" [value]="dist.name">{{ dist.name }}</option>
                     </select>
-                    <span *ngIf="isReqFieldInvalid('district')" class="text-[11px] text-red-500 mt-1 block">District is required.</span>
                   </div>
 
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mandal / Sub-Division *</label>
-                    <select formControlName="mandal" 
-                            class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none bg-white">
-                      <option value="">Select Mandal</option>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Mandal / Sub-division *</label>
+                    <select formControlName="mandal"
+                            class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                            [ngClass]="isReqFieldInvalid('mandal') ? 'border-red-500 bg-red-50/50' : 'border-slate-300'">
+                      <option value="">{{ reqMandals.length ? 'Select Mandal' : 'Select District first' }}</option>
                       <option *ngFor="let m of reqMandals" [value]="m.name">{{ m.name }}</option>
                     </select>
-                    <span *ngIf="isReqFieldInvalid('mandal')" class="text-[11px] text-red-500 mt-1 block">Mandal is required.</span>
                   </div>
                 </div>
 
-                <!-- Attendant Contact -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Attendant Contact Person *</label>
-                    <input type="text" formControlName="contactPerson" placeholder="e.g. Bikash Das (Relative)" 
-                           class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none" />
-                    <span *ngIf="isReqFieldInvalid('contactPerson')" class="text-[11px] text-red-500 mt-1 block">Contact Person is required.</span>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Contact Attendant Name *</label>
+                    <input type="text" formControlName="contactPerson" placeholder="Name of attendant"
+                           class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                           [ngClass]="isReqFieldInvalid('contactPerson') ? 'border-red-500 bg-red-50/50' : 'border-slate-300'" />
                   </div>
 
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Direct Calling / WhatsApp Phone *</label>
-                    <input type="tel" formControlName="contactPhone" placeholder="+91 9876543210" 
-                           class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none" />
-                    <span *ngIf="isReqFieldInvalid('contactPhone')" class="text-[11px] text-red-500 mt-1 block">Phone number is required.</span>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Contact Phone Number *</label>
+                    <input type="tel" formControlName="contactPhone" placeholder="10-digit phone"
+                           class="w-full px-4 py-2.5 rounded-xl border text-sm font-mono focus:outline-none focus:ring-2 focus:ring-red-500"
+                           [ngClass]="isReqFieldInvalid('contactPhone') ? 'border-red-500 bg-red-50/50' : 'border-slate-300'" />
                   </div>
                 </div>
 
-                <!-- Notes -->
-                <div>
-                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Additional Notes / Diagnosis</label>
-                  <textarea formControlName="notes" rows="2" placeholder="Surgery timing, replacement donor requirements, etc." 
-                            class="w-full px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-red-600 focus:outline-none"></textarea>
+                <div class="pt-2">
+                  <button type="submit" 
+                          class="w-full py-3.5 rounded-xl font-bold text-sm text-white bg-red-600 hover:bg-red-700 transition shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Broadcast Emergency Request
+                  </button>
                 </div>
-
-                <button type="submit" 
-                        class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-sm transition shadow-lg flex items-center justify-center gap-2">
-                  <i class="fa-solid fa-tower-broadcast animate-pulse"></i> Broadcast Urgent Request Across Tripura
-                </button>
-
               </form>
             </div>
 
-            <!-- Active Requests Sidebar (Right 1 col) -->
+            <!-- Live Active Requests (Right 1 col) -->
             <div class="space-y-4">
               <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-200">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                  <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
-                    Live Urgent Appeals
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                  <h3 class="text-sm font-black text-slate-900 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping"></span>
+                    Live Urgent Requests
                   </h3>
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">
-                    {{ activeRequests.length }} Active
-                  </span>
+                  <span class="text-[11px] font-bold text-slate-400 font-mono">{{ activeRequests.length }} Open</span>
                 </div>
 
                 <div class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
                   <div *ngFor="let req of activeRequests" 
-                       class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-red-300 transition">
-                    <div class="flex items-center justify-between mb-2">
-                      <span class="text-xs font-black font-mono px-2 py-0.5 rounded-md bg-red-600 text-white shadow-sm">
-                        {{ req.bloodGroup }}
+                       class="p-4 rounded-2xl border border-red-100 bg-red-50/40 space-y-2">
+                    <div class="flex items-center justify-between">
+                      <span class="text-xs font-black px-2 py-0.5 rounded bg-red-600 text-white">
+                        {{ req.bloodGroup }} • {{ req.unitsNeeded }} Units
                       </span>
-                      <span class="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                            [ngClass]="req.urgency.includes('Critical') ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'">
+                      <span class="text-[10px] font-bold text-red-600 uppercase">
                         {{ req.urgency }}
                       </span>
                     </div>
 
-                    <h4 class="text-xs font-bold text-slate-900 leading-snug">{{ req.patientName }}</h4>
-                    <p class="text-[11px] text-slate-600 mt-1 font-medium">{{ req.hospitalName }}</p>
-                    <p class="text-[10px] text-slate-400 mt-0.5">{{ req.mandal }}, {{ req.district }}</p>
+                    <div>
+                      <div class="text-xs font-bold text-slate-800">{{ req.patientName }}</div>
+                      <div class="text-[11px] text-slate-500">{{ req.hospitalName }}</div>
+                      <div class="text-[11px] text-slate-400">{{ req.mandal }}, {{ req.district }}</div>
+                    </div>
 
-                    <div class="mt-3 pt-2 border-t border-slate-200 flex items-center justify-between text-xs">
-                      <span class="text-[11px] font-semibold text-slate-500">{{ req.unitsNeeded }} Unit(s)</span>
-                      <a [href]="'tel:' + req.contactPhone" 
-                         class="px-3 py-1 bg-emerald-600 text-white rounded-lg font-bold text-[11px] hover:bg-emerald-700 flex items-center gap-1 shadow-sm">
-                        <i class="fa-solid fa-phone text-[9px]"></i> Call Attendant
+                    <div class="pt-2 border-t border-red-200/60 flex items-center justify-between text-[11px]">
+                      <span class="text-slate-600">Contact: {{ req.contactPerson }}</span>
+                      <a [href]="'tel:' + req.contactPhone" class="font-bold text-red-600 hover:underline">
+                        <i class="fa-solid fa-phone mr-1"></i> Call
                       </a>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
 
           </div>
         </div>
 
-        <!-- ================= TAB 2: DONOR DIRECTORY & MATCHMAKER ================= -->
+        <!-- ================= TAB 2: REGISTER AS A DONOR ================= -->
+        <div *ngIf="activeTab === 'register-donor'" class="animate-fadeIn max-w-2xl mx-auto">
+          <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-md border border-slate-200">
+            <div class="border-b border-slate-100 pb-4 mb-6 text-center">
+              <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xl mx-auto mb-2">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <h2 class="text-2xl font-black text-slate-900">Enrol in Rakta Sampark Donor Registry</h2>
+              <p class="text-xs text-slate-500 mt-1">Join over 850+ verified voluntary youth blood donors on 24/7 standby.</p>
+            </div>
+
+            <div *ngIf="donorEnrolledSuccess" class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-2 mb-6">
+              <i class="fa-solid fa-circle-check text-2xl text-emerald-600"></i>
+              <h4 class="text-sm font-bold text-emerald-950">Thank you for registering as a Life Saver!</h4>
+              <p class="text-xs text-emerald-800">You have been added to the voluntary donor directory. You will only be alerted for genuine hospital emergencies in your district.</p>
+              <button (click)="donorEnrolledSuccess = false" class="px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-bold">Register Another Donor</button>
+            </div>
+
+            <form *ngIf="!donorEnrolledSuccess" (ngSubmit)="submitDonorRegistration()" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Donor Full Name *</label>
+                <input type="text" [(ngModel)]="newDonorName" name="newDonorName" required placeholder="Full Name" 
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Blood Group *</label>
+                  <select [(ngModel)]="newDonorGroup" name="newDonorGroup" required 
+                          class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-bold text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <option value="">Select Blood Group</option>
+                    <option *ngFor="let bg of bloodGroups" [value]="bg">{{ bg }}</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Mobile Number (WhatsApp) *</label>
+                  <input type="tel" [(ngModel)]="newDonorPhone" name="newDonorPhone" required placeholder="10-digit number" 
+                         class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-red-500" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">District *</label>
+                  <select [(ngModel)]="newDonorDistrict" name="newDonorDistrict" (change)="onNewDonorDistrictChange()" required 
+                          class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <option value="">Select District</option>
+                    <option *ngFor="let dist of districts" [value]="dist.name">{{ dist.name }}</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Mandal *</label>
+                  <select [(ngModel)]="newDonorMandal" name="newDonorMandal" required 
+                          class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <option value="">{{ newDonorMandals.length ? 'Select Mandal' : 'Select District first' }}</option>
+                    <option *ngFor="let m of newDonorMandals" [value]="m.name">{{ m.name }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="pt-3">
+                <button type="submit" [disabled]="!newDonorName || !newDonorGroup || !newDonorPhone || !newDonorDistrict" 
+                        class="w-full py-3.5 rounded-xl font-bold text-sm text-white bg-red-600 hover:bg-red-700 disabled:opacity-50 transition shadow-lg">
+                  <i class="fa-solid fa-heart mr-2"></i>Register as Voluntary Blood Donor
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- ================= TAB 3: DONOR DIRECTORY ================= -->
         <div *ngIf="activeTab === 'directory'" class="animate-fadeIn space-y-6">
           
-          <!-- Filter Bar -->
-          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-4">
-            
+          <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
             <div class="flex flex-wrap items-center gap-3">
-              <!-- Blood Group Filter -->
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-bold text-slate-600">Group:</span>
-                <select [(ngModel)]="filterBloodGroup" (ngModelChange)="applyDonorFilters()"
-                        class="px-3 py-1.5 text-xs rounded-xl border border-slate-300 font-bold bg-white text-red-600 font-mono">
+              <!-- Filter by Blood Group -->
+              <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Blood Group</label>
+                <select [(ngModel)]="filterBloodGroup" (change)="applyDonorFilters()" 
+                        class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-red-600 focus:outline-none">
                   <option value="ALL">All Groups</option>
                   <option *ngFor="let bg of bloodGroups" [value]="bg">{{ bg }}</option>
                 </select>
               </div>
 
-              <!-- District Filter -->
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-bold text-slate-600">District:</span>
-                <select [(ngModel)]="filterDistrict" (ngModelChange)="applyDonorFilters()"
-                        class="px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white">
-                  <option value="ALL">All 8 Districts</option>
-                  <option *ngFor="let d of districts" [value]="d.name">{{ d.name }}</option>
+              <!-- Filter by District -->
+              <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">District</label>
+                <select [(ngModel)]="filterDistrict" (change)="applyDonorFilters()" 
+                        class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none">
+                  <option value="ALL">All Districts</option>
+                  <option *ngFor="let dist of districts" [value]="dist.name">{{ dist.name }}</option>
                 </select>
               </div>
             </div>
 
-            <div class="text-xs font-semibold text-slate-500">
-              Showing <span class="font-bold text-slate-900">{{ filteredDonors.length }}</span> verified donors ready to assist
+            <div class="text-xs text-slate-500 font-semibold">
+              Showing <strong class="text-slate-900">{{ filteredDonors.length }}</strong> Verified Voluntary Donors
             </div>
-
           </div>
 
           <!-- Donors Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div *ngFor="let d of filteredDonors" 
-                 class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div *ngFor="let donor of filteredDonors" 
+                 class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
               <div>
                 <div class="flex items-center justify-between mb-3">
-                  <span class="w-10 h-10 rounded-xl bg-red-50 text-red-600 font-mono font-black text-sm flex items-center justify-center border border-red-200 shadow-sm">
-                    {{ d.bloodGroup }}
+                  <span class="text-xs font-black px-3 py-1 rounded-xl bg-red-600 text-white shadow-sm">
+                    {{ donor.bloodGroup }}
                   </span>
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Available
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                        [ngClass]="donor.isAvailable ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'">
+                    {{ donor.isAvailable ? '● Available' : 'On Standby' }}
                   </span>
                 </div>
 
-                <h4 class="text-sm font-bold text-slate-900 leading-snug">{{ d.name }}</h4>
-                <div class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+                <h4 class="text-base font-bold text-slate-900 mb-1">{{ donor.name }}</h4>
+                <div class="text-xs text-slate-500 flex items-center gap-1 mb-2">
                   <i class="fa-solid fa-location-dot text-slate-400 text-[10px]"></i>
-                  <span>{{ d.mandal }}, {{ d.district }}</span>
+                  <span>{{ donor.mandal }}, {{ donor.district }}</span>
                 </div>
-
-                <div class="mt-3 p-2.5 rounded-xl bg-slate-50 text-[11px] text-slate-600 flex justify-between">
-                  <span>Donated: <strong>{{ d.totalDonations }} times</strong></span>
-                  <span class="text-slate-400">Last: {{ d.lastDonationDate }}</span>
+                <div class="text-[11px] text-slate-400">
+                  Total Lifesaving Donations: <strong class="text-slate-700">{{ donor.totalDonations }} times</strong>
                 </div>
               </div>
 
-              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2">
-                <a [href]="'tel:' + d.phone" 
-                   class="flex-1 py-2 text-center text-xs font-bold text-white bg-[#0e2554] hover:bg-[#081836] rounded-xl transition shadow-sm flex items-center justify-center gap-1.5">
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-xs font-mono font-bold text-slate-700">+91 {{ donor.phone }}</span>
+                <a [href]="'tel:' + donor.phone" class="px-3 py-1.5 rounded-xl bg-red-50 text-red-700 font-bold text-xs hover:bg-red-100 transition flex items-center gap-1">
                   <i class="fa-solid fa-phone text-[10px]"></i> Call Donor
-                </a>
-                <a [href]="'https://wa.me/' + d.phone.replace('+91', '').replace(' ', '')" target="_blank" 
-                   class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xs hover:bg-emerald-700 transition shadow-sm"
-                   title="WhatsApp">
-                  <i class="fa-brands fa-whatsapp"></i>
                 </a>
               </div>
             </div>
@@ -303,7 +351,7 @@ import { BloodDonor, BloodRequest, BloodDrive, District, Mandal } from '../../co
 
         </div>
 
-        <!-- ================= TAB 3: BLOOD DRIVES & CAMPS ================= -->
+        <!-- ================= TAB 4: BLOOD DRIVES & CAMPS ================= -->
         <div *ngIf="activeTab === 'drives'" class="animate-fadeIn space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div *ngFor="let drive of bloodDrives" 
@@ -366,11 +414,13 @@ export class BloodDonationComponent implements OnInit {
   geoService = inject(TripuraGeoService);
   fb = inject(FormBuilder);
 
-  activeTab: 'request' | 'directory' | 'drives' = 'request';
+  activeTab: 'request' | 'register-donor' | 'directory' | 'drives' = 'request';
   requestSubmitted = false;
+  donorEnrolledSuccess = false;
 
   districts: District[] = [];
   reqMandals: Mandal[] = [];
+  newDonorMandals: Mandal[] = [];
 
   bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
@@ -383,6 +433,12 @@ export class BloodDonationComponent implements OnInit {
   filterDistrict = 'ALL';
 
   reqForm!: FormGroup;
+
+  newDonorName = '';
+  newDonorGroup = '';
+  newDonorPhone = '';
+  newDonorDistrict = '';
+  newDonorMandal = '';
 
   ngOnInit(): void {
     this.districts = this.geoService.getDistricts();
@@ -414,6 +470,11 @@ export class BloodDonationComponent implements OnInit {
     this.reqForm.get('mandal')?.setValue('');
   }
 
+  onNewDonorDistrictChange(): void {
+    this.newDonorMandals = this.geoService.getMandalsForDistrict(this.newDonorDistrict);
+    this.newDonorMandal = '';
+  }
+
   isReqFieldInvalid(field: string): boolean {
     const c = this.reqForm.get(field);
     return !!(c && c.invalid && (c.touched || c.dirty));
@@ -433,6 +494,26 @@ export class BloodDonationComponent implements OnInit {
     }, 4000);
   }
 
+  submitDonorRegistration(): void {
+    if (!this.newDonorName || !this.newDonorGroup || !this.newDonorPhone || !this.newDonorDistrict) return;
+
+    this.bloodService.registerAsDonor({
+      name: this.newDonorName,
+      bloodGroup: this.newDonorGroup as any,
+      district: this.newDonorDistrict,
+      mandal: this.newDonorMandal || 'Main Block',
+      phone: this.newDonorPhone,
+      isAvailable: true
+    });
+
+    this.donorEnrolledSuccess = true;
+    this.newDonorName = '';
+    this.newDonorGroup = '';
+    this.newDonorPhone = '';
+    this.newDonorDistrict = '';
+    this.newDonorMandal = '';
+  }
+
   applyDonorFilters(): void {
     this.filteredDonors = this.allDonors.filter(d => {
       const matchBg = this.filterBloodGroup === 'ALL' || d.bloodGroup === this.filterBloodGroup;
@@ -445,4 +526,3 @@ export class BloodDonationComponent implements OnInit {
     this.bloodService.pledgeToDrive(driveId);
   }
 }
-

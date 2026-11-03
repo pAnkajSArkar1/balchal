@@ -16,22 +16,22 @@ export interface ImpactStats {
 })
 export class MemberService {
   private statsSubject = new BehaviorSubject<ImpactStats>({
-    totalMembers: 48924,
-    activeVolunteers: 12450,
+    totalMembers: 85420,
+    activeVolunteers: 18250,
     districtsCovered: 8,
     mandalsCovered: 60,
-    eventsConducted: 842,
-    bloodUnitsDonated: 3418
+    eventsConducted: 450,
+    bloodUnitsDonated: 4850
   });
 
   private registeredMembers: MemberKYC[] = [
     {
       id: 'MEM-001',
-      applicationId: 'TR-YUV-2026-1042',
+      applicationId: 'TR-YMT-2026-1042',
       fullName: 'Prasenjit Bhowmik',
       dob: '2001-04-12',
       gender: 'Male',
-      mobile: '+91 98621 11200',
+      mobile: '9862111200',
       email: 'prasenjit.b@tripura.org',
       bloodGroup: 'O+',
       district: 'West Tripura',
@@ -40,6 +40,7 @@ export class MemberService {
       pinCode: '799001',
       address: 'Near Jagannath Temple, Agartala',
       qualification: 'B.Tech Computer Science (NIT Agartala)',
+      profession: 'Private Sector Employee',
       occupation: 'IT Professional & Startup Enthusiast',
       skills: ['Social Media & IT', 'Disaster Relief & First Aid', 'Event Coordination'],
       wingInterest: 'Digital & Media Wing',
@@ -48,11 +49,11 @@ export class MemberService {
     },
     {
       id: 'MEM-002',
-      applicationId: 'TR-YUV-2026-1188',
+      applicationId: 'TR-YMT-2026-1188',
       fullName: 'Mami Debbarma',
       dob: '2002-09-24',
       gender: 'Female',
-      mobile: '+91 94364 99120',
+      mobile: '9436499120',
       email: 'mami.deb@tripura.org',
       bloodGroup: 'B+',
       district: 'Gomati',
@@ -61,6 +62,7 @@ export class MemberService {
       pinCode: '799120',
       address: 'College Road, Udaipur',
       qualification: 'M.Sc Botany (Tripura University)',
+      profession: 'Student',
       occupation: 'Research Scholar',
       skills: ['Sports & Culture', 'Community Welfare', 'Environmental Drives'],
       wingInterest: 'Yuva Mahila & Environmental Wing',
@@ -84,7 +86,7 @@ export class MemberService {
     const newMember: MemberKYC = {
       ...data,
       id: `MEM-${Date.now().toString().slice(-4)}`,
-      applicationId: `TR-YUV-2026-${randomSeq}`,
+      applicationId: `TR-YMT-2026-${randomSeq}`,
       joinedDate: new Date().toISOString().split('T')[0],
       status: 'Verified'
     };
@@ -94,10 +96,11 @@ export class MemberService {
 
     // Update impact stats
     const curStats = this.statsSubject.value;
+    const hasSkills = !!(newMember.skills && newMember.skills.length > 0);
     this.statsSubject.next({
       ...curStats,
       totalMembers: curStats.totalMembers + 1,
-      activeVolunteers: curStats.activeVolunteers + (newMember.skills.length > 0 ? 1 : 0)
+      activeVolunteers: curStats.activeVolunteers + (hasSkills ? 1 : 0)
     });
 
     return newMember;
@@ -107,4 +110,3 @@ export class MemberService {
     return this.registeredMembers;
   }
 }
-
