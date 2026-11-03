@@ -23,79 +23,113 @@ interface CoreFeature {
   template: `
     <div class="relative bg-white overflow-hidden">
       
-      <!-- ================= HERO SECTION ================= -->
-      <section class="relative min-h-[500px] lg:min-h-[540px] flex items-center bg-white overflow-hidden border-b border-slate-100">
+      <!-- ================= HERO SECTION (CLEAN 2-COLUMN SHOWCASE - ZERO SMUDGE) ================= -->
+      <section class="relative bg-gradient-to-b from-white via-slate-50/40 to-white py-12 lg:py-16 border-b border-slate-100 overflow-hidden">
         
-        <!-- Right Background: PRISTINE ORIGINAL PHOTOGRAPH OF UJJAYANTA PALACE (AGARTALA) -->
-        <div class="absolute inset-y-0 right-0 w-full lg:w-[58%] pointer-events-none select-none overflow-hidden">
-          <img src="ujjayanta-palace.jpg" 
-               alt="Ujjayanta Palace, Agartala, Tripura" 
-               class="w-full h-full object-cover object-center [mask-image:linear-gradient(to_right,transparent_0%,black_22%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_22%)]" />
-        </div>
+        <!-- Subtle Ambient Background Glows -->
+        <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 left-10 w-80 h-80 bg-blue-600/5 rounded-full blur-3xl pointer-events-none"></div>
 
-        <!-- Left Mobile Overlay for text readability on small viewports -->
-        <div class="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent lg:hidden pointer-events-none"></div>
-
-        <!-- Left Hero Content (Starts directly on left edge aligned with header logo) -->
-        <div class="relative z-10 w-full px-6 sm:px-10 lg:px-14 py-12 lg:py-16">
-          <div class="max-w-xl lg:max-w-2xl">
+        <div class="w-full px-6 sm:px-10 lg:px-14">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             
-            <!-- Headline Kicker -->
-            <div class="text-[11px] sm:text-xs font-extrabold tracking-widest text-[#0e2554] uppercase mb-2">
-              A DIGITAL PLATFORM FOR TRIPURA'S YOUTH
-            </div>
-
-            <!-- Big Bold Title -->
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0b1e42] tracking-tight leading-[1.08] mb-3">
-              Yuva Sampark
-            </h1>
-
-            <!-- Subheading Tagline -->
-            <p class="text-base sm:text-lg lg:text-xl font-bold text-slate-800 tracking-tight mb-3">
-              Connect Youth • Organise Action • Build Communities
-            </p>
-
-            <!-- Paragraph Description -->
-            <p class="text-xs sm:text-sm lg:text-[15px] text-slate-600 leading-relaxed mb-7 max-w-lg font-normal">
-              A secure, unified platform to register members, manage events, mobilise volunteers, support blood donation, and drive meaningful youth initiatives across Tripura.
-            </p>
-
-            <!-- Action CTAs -->
-            <div class="flex flex-wrap items-center gap-3.5 mb-8">
-              <!-- Primary CTA: Get Started -->
-              <a routerLink="/register" 
-                 class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-[#0e2554] hover:bg-[#071739] rounded-xl transition duration-150 shadow-md hover:shadow-lg transform active:scale-95">
-                <i class="fa-solid fa-user-plus text-xs"></i>
-                <span>Get Started</span>
-              </a>
-
-              <!-- Secondary CTA: Watch Demo -->
-              <button (click)="openDemoModal()" 
-                      class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl transition duration-150 shadow-sm hover:border-slate-400">
-                <i class="fa-regular fa-circle-play text-base text-[#0e2554]"></i>
-                <span>Watch Demo</span>
-              </button>
-            </div>
-
-            <!-- Trust Chips (3 Trust Marks) -->
-            <div class="flex flex-wrap items-center gap-5 text-xs sm:text-sm font-semibold text-slate-800">
-              <div class="flex items-center gap-2">
-                <i class="fa-regular fa-circle-check text-emerald-600 text-sm"></i>
-                <span>Secure & Private</span>
+            <!-- Left Column: Typography, CTAs, and Trust Marks (7 Cols) -->
+            <div class="lg:col-span-7 space-y-6">
+              
+              <!-- Headline Kicker -->
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#0e2554] text-[11px] font-extrabold tracking-widest uppercase">
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                A DIGITAL PLATFORM FOR TRIPURA'S YOUTH
               </div>
 
-              <div class="hidden sm:inline-block h-3.5 w-px bg-slate-300"></div>
+              <!-- Big Bold Main Title -->
+              <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0b1e42] tracking-tight leading-[1.08]">
+                Yuva Sampark
+              </h1>
 
-              <div class="flex items-center gap-2">
-                <i class="fa-solid fa-desktop text-blue-600 text-sm"></i>
-                <span>Web & Mobile Ready</span>
+              <!-- Subheading Tagline -->
+              <p class="text-lg sm:text-xl font-bold text-slate-800 tracking-tight">
+                Connect Youth • Organise Action • Build Communities
+              </p>
+
+              <!-- Paragraph Description -->
+              <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl font-normal">
+                A secure, unified platform to register members, manage events, mobilise volunteers, support blood donation, and drive meaningful youth initiatives across Tripura.
+              </p>
+
+              <!-- Action CTAs -->
+              <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                <!-- Primary CTA: Get Started -->
+                <a routerLink="/register" 
+                   class="inline-flex items-center gap-2.5 px-6 py-3.5 text-sm font-bold text-white bg-[#0e2554] hover:bg-[#071739] rounded-xl transition duration-150 shadow-md hover:shadow-lg transform active:scale-95">
+                  <i class="fa-solid fa-user-plus text-xs"></i>
+                  <span>Get Started</span>
+                </a>
+
+                <!-- Secondary CTA: Watch Demo -->
+                <button (click)="openDemoModal()" 
+                        class="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl transition duration-150 shadow-sm hover:border-slate-400">
+                  <i class="fa-regular fa-circle-play text-base text-[#0e2554]"></i>
+                  <span>Watch Demo</span>
+                </button>
               </div>
 
-              <div class="hidden sm:inline-block h-3.5 w-px bg-slate-300"></div>
+              <!-- Trust Chips (3 Trust Marks) -->
+              <div class="flex flex-wrap items-center gap-5 pt-3 text-xs sm:text-sm font-semibold text-slate-700">
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-circle-check text-emerald-600 text-sm"></i>
+                  <span>Secure & Private</span>
+                </div>
 
-              <div class="flex items-center gap-2">
-                <i class="fa-solid fa-shield-halved text-indigo-600 text-sm"></i>
-                <span>Verified Members</span>
+                <div class="hidden sm:inline-block h-3.5 w-px bg-slate-300"></div>
+
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-desktop text-blue-600 text-sm"></i>
+                  <span>Web & Mobile Ready</span>
+                </div>
+
+                <div class="hidden sm:inline-block h-3.5 w-px bg-slate-300"></div>
+
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-shield-halved text-indigo-600 text-sm"></i>
+                  <span>Verified Members</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Column: Crystal Clear Ujjayanta Palace Showcase Card (5 Cols) -->
+            <div class="lg:col-span-5 relative">
+              
+              <!-- Subtle decorative backdrop angle -->
+              <div class="absolute -inset-2 bg-gradient-to-tr from-amber-500/20 via-blue-900/10 to-orange-500/20 rounded-3xl blur-xl pointer-events-none"></div>
+
+              <!-- Showcase Container with crisp rounded borders & shadow -->
+              <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white ring-1 ring-slate-200/80 bg-slate-900 group">
+                
+                <!-- Pure, un-smudged high-res photograph -->
+                <img src="ujjayanta-palace.jpg" 
+                     alt="Ujjayanta Palace, Agartala, Tripura" 
+                     class="w-full h-[360px] sm:h-[420px] lg:h-[450px] object-cover object-center transform group-hover:scale-105 transition-transform duration-700" />
+                
+                <!-- Bottom subtle gradient overlay for caption legibility -->
+                <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent pointer-events-none"></div>
+
+                <!-- Floating Caption Glass Card -->
+                <div class="absolute bottom-4 left-4 right-4 bg-slate-900/85 backdrop-blur-md rounded-2xl p-3.5 border border-white/20 text-white flex items-center justify-between shadow-lg">
+                  <div>
+                    <div class="text-[10px] text-amber-400 font-extrabold uppercase tracking-wider flex items-center gap-1.5">
+                      <i class="fa-solid fa-landmark"></i> Tripura State Cultural Landmark
+                    </div>
+                    <div class="text-xs sm:text-sm font-extrabold text-white mt-0.5">Ujjayanta Palace, Agartala</div>
+                    <div class="text-[10.5px] text-blue-200/80 font-medium">State Museum & Historic Royal Seat</div>
+                  </div>
+                  
+                  <span class="px-2.5 py-1 rounded-lg bg-[#0e2554] text-amber-300 text-[10px] font-bold border border-blue-400/30 flex-shrink-0">
+                    Agartala
+                  </span>
+                </div>
+
               </div>
             </div>
 

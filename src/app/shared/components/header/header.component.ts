@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -12,9 +12,8 @@ import { AuthService } from '../../../core/services/auth.service';
       <div class="w-full px-6 sm:px-10 lg:px-14">
         <div class="flex items-center justify-between h-20">
           
-          <!-- Brand Logo (Matching reference screenshot exactly) -->
+          <!-- Brand Logo -->
           <a routerLink="/" class="flex items-center gap-3.5 group cursor-pointer focus:outline-none">
-            <!-- Official Emblem cropped from original image -->
             <img src="emblem.png" alt="Yuva Sampark Emblem" class="w-10 h-10 object-contain transition-transform group-hover:scale-105" />
             
             <div class="flex items-center gap-3">
@@ -26,7 +25,7 @@ import { AuthService } from '../../../core/services/auth.service';
             </div>
           </a>
 
-          <!-- Center Navigation Links (Matching reference screenshot pills) -->
+          <!-- Center Navigation Links -->
           <nav class="hidden md:flex items-center gap-2 text-sm font-medium">
             <a routerLink="/" 
                routerLinkActive="bg-[#0e2554] text-white font-semibold shadow-sm" 
@@ -35,10 +34,12 @@ import { AuthService } from '../../../core/services/auth.service';
               Home
             </a>
             
-            <a routerLink="/#features" 
-               class="px-4 py-2 rounded-lg text-slate-700 hover:text-[#0e2554] hover:bg-slate-100 transition-colors">
+            <!-- Features Link (Smooth Scrolls to #features directly) -->
+            <button type="button" 
+                    (click)="scrollToSection('features', $event)" 
+                    class="px-4 py-2 rounded-lg text-slate-700 hover:text-[#0e2554] hover:bg-slate-100 transition-colors font-medium text-sm focus:outline-none">
               Features
-            </a>
+            </button>
             
             <a routerLink="/opportunities" 
                routerLinkActive="bg-[#0e2554] text-white font-semibold shadow-sm"
@@ -90,14 +91,14 @@ import { AuthService } from '../../../core/services/auth.service';
             </ng-container>
 
             <ng-template #loggedOutBtns>
-              <!-- Login Button (White pill with border & lock icon) -->
+              <!-- Login Button -->
               <a routerLink="/login" 
                  class="inline-flex items-center gap-2 px-5 py-2 text-sm font-bold text-slate-800 bg-white border border-slate-300 rounded-xl hover:border-slate-400 hover:bg-slate-50 transition shadow-sm">
                 <i class="fa-solid fa-lock text-xs text-slate-600"></i>
                 <span>Login</span>
               </a>
 
-              <!-- Register Button (Dark navy pill with + icon) -->
+              <!-- Register Button -->
               <a routerLink="/register" 
                  class="inline-flex items-center gap-2 px-5 py-2 text-sm font-bold text-white bg-[#0e2554] hover:bg-[#071739] rounded-xl transition shadow-sm hover:shadow">
                 <i class="fa-solid fa-user-plus text-xs"></i>
@@ -117,7 +118,7 @@ import { AuthService } from '../../../core/services/auth.service';
         <!-- Mobile Navigation Menu -->
         <div *ngIf="mobileMenuOpen" class="md:hidden pb-4 pt-2 border-t border-slate-100 flex flex-col gap-1.5 animate-fadeIn">
           <a (click)="mobileMenuOpen = false" routerLink="/" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Home</a>
-          <a (click)="mobileMenuOpen = false" routerLink="/#features" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Features</a>
+          <button (click)="mobileMenuOpen = false; scrollToSection('features', $event)" class="text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Features</button>
           <a (click)="mobileMenuOpen = false" routerLink="/opportunities" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Impact & Schemes</a>
           <a (click)="mobileMenuOpen = false" routerLink="/blood-donation" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Support & Blood Donation</a>
           <a (click)="mobileMenuOpen = false" routerLink="/events" class="px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-slate-100">Events & Drives</a>
@@ -131,5 +132,20 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class HeaderComponent {
   authService = inject(AuthService);
+  router = inject(Router);
   mobileMenuOpen = false;
+
+  scrollToSection(id: string, event?: Event): void {
+    if (event) event.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      this.router.navigate(['/']).then(() => {
+        setTimeout(() => {
+          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+      });
+    }
+  }
 }
