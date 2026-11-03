@@ -114,3 +114,4 @@ Selected fellows will receive a monthly stipend, hands-on mentorship under state
     return this.articles.find(a => a.id === id);
   }
 }
+

@@ -144,3 +144,4 @@ export class LeadershipComponent implements OnInit {
     return this.allLeaders.filter(l => l.level === this.activeLevel);
   }
 }
+

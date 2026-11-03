@@ -254,3 +254,4 @@ export class InitiativesService {
     return this.initiatives.filter(i => i.category === cat);
   }
 }
+

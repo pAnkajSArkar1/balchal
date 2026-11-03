@@ -233,3 +233,4 @@ export class LeadershipService {
     return this.leaders.filter(l => l.level === level);
   }
 }
+

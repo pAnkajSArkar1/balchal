@@ -269,3 +269,4 @@ export class MediaComponent implements OnInit {
     this.activeVideo = null;
   }
 }
+

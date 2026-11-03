@@ -222,3 +222,4 @@ export class NewsComponent implements OnInit {
     setTimeout(() => this.copySuccess = false, 2000);
   }
 }
+

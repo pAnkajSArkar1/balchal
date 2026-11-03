@@ -222,3 +222,4 @@ export class DistrictsComponent implements OnInit {
     this.filteredTeam = [...this.allTeam];
   }
 }
+
